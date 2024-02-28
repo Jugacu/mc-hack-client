@@ -1,6 +1,8 @@
 package es.jugacu.mixin.client;
 
 import es.jugacu.KeyboardManager;
+import es.jugacu.events.EventRegistry;
+import es.jugacu.events.EventType;
 import net.minecraft.client.Keyboard;
 
 import org.spongepowered.asm.mixin.Mixin;
@@ -13,9 +15,10 @@ public class KeyboardMixin {
 	@Inject(at = @At("HEAD"), method = "onKey")
 	private void onKey(long windowHandle, int key, int scancode, int action,
 					   int modifiers, CallbackInfo ci) {
-		KeyboardManager
-				.getInstance()
-				.onKeyPress(windowHandle, key, scancode, action, modifiers);
+		EventRegistry.getInstance().fire(
+				EventType.KEY_PRESS,
+				windowHandle, key, scancode, action, modifiers
+		);
 
 	}
 }
