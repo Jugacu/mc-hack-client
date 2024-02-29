@@ -1,6 +1,5 @@
 package es.jugacu.mixin.client;
 
-import es.jugacu.KeyboardManager;
 import es.jugacu.events.EventRegistry;
 import es.jugacu.events.EventType;
 import net.minecraft.client.Keyboard;
@@ -16,7 +15,7 @@ public class KeyboardMixin {
 	private void onKey(long windowHandle, int key, int scancode, int action,
 					   int modifiers, CallbackInfo ci) {
 		EventRegistry.getInstance().fire(
-				EventType.KEY_PRESS,
+				EventType.MIXIN_KEY_PRESS,
 				windowHandle, key, scancode, action, modifiers
 		);
 

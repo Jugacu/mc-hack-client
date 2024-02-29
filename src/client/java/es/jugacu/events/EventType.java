@@ -1,6 +1,6 @@
 package es.jugacu.events;
 
 public enum EventType {
-    KEY_PRESS,
-    GUI_RENDER
+    MIXIN_KEY_PRESS,
+    MIXIN_GUI_RENDER
 }

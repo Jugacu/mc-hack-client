@@ -2,7 +2,8 @@ package es.jugacu;
 
 import es.jugacu.events.Event;
 import es.jugacu.events.EventType;
-import es.jugacu.screens.OverlayScreen;
+import es.jugacu.features.FeatureList;
+import es.jugacu.features.OverlayFeature;
 import net.minecraft.client.MinecraftClient;
 import org.lwjgl.glfw.GLFW;
 
@@ -20,7 +21,7 @@ public class KeyboardManager {
     private KeyboardManager() {
     }
 
-    @Event(type = EventType.KEY_PRESS)
+    @Event(type = EventType.MIXIN_KEY_PRESS)
     public void onKeyPress(long windowHandle, int key, int scancode, int action,
                       int modifiers) {
         MinecraftClient client = MinecraftClient.getInstance();
@@ -30,17 +31,9 @@ public class KeyboardManager {
         }
 
         if (key == GLFW.GLFW_KEY_GRAVE_ACCENT) {
-            if (client.world == null) {
-                return;
-            }
-
-            if (client.currentScreen instanceof OverlayScreen) {
-                client.setScreen(null);
-
-                return;
-            }
-
-            client.setScreen(new OverlayScreen());
+            FeatureList
+                    .getInstance()
+                    .toggleFeature(OverlayFeature.class);
         }
     }
 }

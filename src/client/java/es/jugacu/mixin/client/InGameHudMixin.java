@@ -11,6 +11,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.awt.*;
+
 @Mixin(InGameHud.class)
 public class InGameHudMixin {
     @Inject(
@@ -21,7 +23,7 @@ public class InGameHudMixin {
             method = "render(Lnet/minecraft/client/gui/DrawContext;F)V")
     private void onRender(DrawContext context, float tickDelta, CallbackInfo ci)
     {
-        EventRegistry.getInstance().fire(EventType.GUI_RENDER, context, tickDelta);
+        EventRegistry.getInstance().fire(EventType.MIXIN_GUI_RENDER, context, tickDelta);
     }
 
     @Inject(at = @At("HEAD"),
@@ -30,6 +32,5 @@ public class InGameHudMixin {
     private void onRenderOverlay(DrawContext context, Identifier texture,
                                  float opacity, CallbackInfo ci)
     {
-
     }
 }

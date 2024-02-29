@@ -1,7 +1,7 @@
 package es.jugacu;
 
 import es.jugacu.events.EventRegistry;
-import es.jugacu.hud.InGameHud;
+import es.jugacu.features.FeatureList;
 import net.fabricmc.api.ClientModInitializer;
 public class HackClient implements ClientModInitializer {
 	@Override
@@ -9,6 +9,5 @@ public class HackClient implements ClientModInitializer {
 		EventRegistry eventRegistry = EventRegistry.getInstance();
 
 		eventRegistry.registerEvents(KeyboardManager.getInstance());
-		eventRegistry.registerEvents(InGameHud.getInstance());
 	}
 }
