@@ -10,7 +10,7 @@ import net.minecraft.text.Text;
 import java.awt.*;
 
 public class WindowContainerWidget extends ScrollableWidget {
-    public final Color BG_COLOR = new Color(0x67404040, true);
+    public final Color BG_COLOR = new Color(0x37000000, true);
     public final MinecraftClient client = MinecraftClient.getInstance();
 
     public WindowContainerWidget() {

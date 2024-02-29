@@ -67,7 +67,7 @@ public class WindowWidget extends ClickableWidget {
 
         // Lines
         context.drawHorizontalLine(this.getX(), this.getX() + this.getWidth() - 1, titleBounds[3] - 1, LINE_COLOR.getRGB());
-//        context.drawHorizontalLine(this.getX(), this.getX() + this.getWidth(), this.getY(), LINE_COLOR.getRGB());
+//        context.drawHorizontalLine(this.getX(), this.getX() + this.getWidth() - 1, this.getY(), LINE_COLOR.getRGB());
 //        context.drawHorizontalLine(this.getX(), this.getX() + this.getWidth(), this.getY() + getHeight(), LINE_COLOR.getRGB());
 //        context.drawVerticalLine(this.getX(), this.getY(),this.getY() + this.getHeight(), LINE_COLOR.getRGB());
 //        context.drawVerticalLine(this.getX() + this.getWidth(), this.getY(),this.getY() + this.getHeight(), LINE_COLOR.getRGB());

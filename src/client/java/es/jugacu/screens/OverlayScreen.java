@@ -29,7 +29,7 @@ public class OverlayScreen extends Screen {
         );
 
         this.addDrawableChild(
-            new WindowWidget(200, 200, 150, 300, Text.literal("Heading"))
+            new WindowWidget(this.width - 160,  10, 150, 300, Text.literal("Heading"))
         );
     }
     @Override
