@@ -1,4 +1,4 @@
-package es.jugacu.features.hud;
+package es.jugacu.features.impl.hud;
 
 import es.jugacu.events.Event;
 import es.jugacu.events.EventType;

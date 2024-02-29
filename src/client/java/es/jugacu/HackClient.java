@@ -1,9 +1,9 @@
 package es.jugacu;
 
 import es.jugacu.features.FeatureList;
-import es.jugacu.features.Keyboard;
-import es.jugacu.features.Overlay;
-import es.jugacu.features.hud.InGameHud;
+import es.jugacu.features.impl.Keyboard;
+import es.jugacu.features.impl.Overlay;
+import es.jugacu.features.impl.hud.InGameHud;
 import net.fabricmc.api.ClientModInitializer;
 public class HackClient implements ClientModInitializer {
 	@Override

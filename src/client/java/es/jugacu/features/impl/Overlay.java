@@ -1,5 +1,6 @@
-package es.jugacu.features;
+package es.jugacu.features.impl;
 
+import es.jugacu.features.Feature;
 import es.jugacu.screens.OverlayScreen;
 import net.minecraft.client.MinecraftClient;
 

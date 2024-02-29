@@ -1,7 +1,9 @@
-package es.jugacu.features;
+package es.jugacu.features.impl;
 
 import es.jugacu.events.Event;
 import es.jugacu.events.EventType;
+import es.jugacu.features.Feature;
+import es.jugacu.features.FeatureList;
 import org.lwjgl.glfw.GLFW;
 
 public class Keyboard implements Feature {
