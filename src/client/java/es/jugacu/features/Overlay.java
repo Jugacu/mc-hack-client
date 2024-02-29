@@ -3,7 +3,7 @@ package es.jugacu.features;
 import es.jugacu.screens.OverlayScreen;
 import net.minecraft.client.MinecraftClient;
 
-public class OverlayFeature implements Feature {
+public class Overlay implements Feature {
     public final MinecraftClient client = MinecraftClient.getInstance();
 
     @Override

@@ -4,7 +4,7 @@ import es.jugacu.events.Event;
 import es.jugacu.events.EventType;
 import org.lwjgl.glfw.GLFW;
 
-public class KeyboardFeature implements Feature {
+public class Keyboard implements Feature {
     @Event(type = EventType.MIXIN_KEY_PRESS)
     public void onKeyPress(long windowHandle, int key, int scancode, int action, int modifiers) {
         if (action != GLFW.GLFW_PRESS) {
@@ -14,7 +14,7 @@ public class KeyboardFeature implements Feature {
         if (key == GLFW.GLFW_KEY_GRAVE_ACCENT) {
             FeatureList
                     .getInstance()
-                    .toggleFeature(OverlayFeature.class);
+                    .toggleFeature(Overlay.class);
         }
     }
 

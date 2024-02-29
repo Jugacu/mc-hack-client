@@ -1,7 +1,6 @@
 package es.jugacu.features;
 
 import es.jugacu.events.EventRegistry;
-import es.jugacu.features.hud.InGameHud;
 
 import java.util.ArrayList;
 import java.util.Iterator;
