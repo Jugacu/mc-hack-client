@@ -32,8 +32,8 @@ public class WindowContainerWidget extends ScrollableWidget {
         context.drawText(
                 client.textRenderer,
                 Text.literal("OWO"),
-                this.getX(),
-                this.getY(),
+                this.getX() + getPadding(),
+                this.getY() + getPadding(),
                 Color.WHITE.getRGB(),
                 true
         );
