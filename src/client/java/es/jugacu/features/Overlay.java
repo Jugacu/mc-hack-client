@@ -6,9 +6,11 @@ import net.minecraft.client.MinecraftClient;
 public class Overlay implements Feature {
     public final MinecraftClient client = MinecraftClient.getInstance();
 
+    public final OverlayScreen overlayScreen = new OverlayScreen();
+
     @Override
     public void onEnable() {
-        client.setScreen(new OverlayScreen());
+        client.setScreen(overlayScreen);
     }
 
     @Override

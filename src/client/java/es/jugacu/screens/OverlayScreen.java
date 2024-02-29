@@ -1,10 +1,10 @@
 package es.jugacu.screens;
 
+import es.jugacu.widgets.window.WindowWidget;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.widget.TextWidget;
 import net.minecraft.text.Text;
-
-import java.awt.*;
 
 public class OverlayScreen extends Screen {
     public OverlayScreen() {
@@ -14,19 +14,41 @@ public class OverlayScreen extends Screen {
     }
 
     @Override
+    protected void init() {
+        super.init();
+
+        this.addDrawableChild(
+            new TextWidget(
+                    10,
+                    10,
+                    this.textRenderer.getWidth(this.title),
+                    this.textRenderer.fontHeight,
+                    this.title,
+                    this.textRenderer
+            )
+        );
+
+        this.addDrawableChild(
+            new WindowWidget(200, 200, 150, 300, Text.literal("Heading"))
+        );
+    }
+    @Override
+    public void render(DrawContext context, int mouseX, int mouseY, float delta) {
+        super.render(context, mouseX, mouseY, delta);
+    }
+
+    @Override
+    public void renderBackground(DrawContext context, int mouseX, int mouseY, float delta) {
+        // Nope
+    }
+
+    @Override
     public boolean shouldPause() {
         return false;
     }
 
     @Override
-    public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-        context.drawText(
-                textRenderer,
-                this.title,
-                10,
-                10,
-                Color.WHITE.getRGB(),
-        true
-        );
+    public boolean shouldCloseOnEsc() {
+        return false;
     }
 }
