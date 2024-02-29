@@ -23,19 +23,19 @@ public class FeatureList {
     private final ArrayList<Feature> enabledFeatures = new ArrayList<>();
 
     private FeatureList() {
-        registerFeature(new OverlayFeature(), false);
-        registerFeature(new InGameHud(), true);
     }
 
-    public void registerFeature(Feature feature, boolean enabled) {
+    public FeatureList registerFeature(Feature feature, boolean enabled) {
         disabledFeatures.add(feature);
 
         if (enabled) {
             enableFeature(feature.getClass());
         }
+
+        return this;
     }
 
-    public void enableFeature(Class<? extends Feature> featureClazz) {
+    public FeatureList enableFeature(Class<? extends Feature> featureClazz) {
         Iterator<Feature> iterator = disabledFeatures.iterator();
 
         while (iterator.hasNext()) {
@@ -56,13 +56,16 @@ public class FeatureList {
 
             eventRegistry.registerEvents(feature);
         }
+
+        return this;
     }
 
-    public void disableFeature(Class<? extends Feature> featureClazz) {
+    public FeatureList disableFeature(Class<? extends Feature> featureClazz) {
         Iterator<Feature> iterator = enabledFeatures.iterator();
 
         while (iterator.hasNext()) {
             Feature feature = iterator.next();
+
             if (!featureClazz.isInstance(feature)) {
                 continue;
             }
@@ -78,19 +81,23 @@ public class FeatureList {
 
             eventRegistry.remove(feature);
         }
+
+        return this;
     }
 
     public boolean isFeatureEnabled(Class<? extends Feature> featureClazz) {
         return enabledFeatures.stream().anyMatch(featureClazz::isInstance);
     }
 
-    public void toggleFeature(Class<? extends Feature> featureClazz) {
+    public FeatureList toggleFeature(Class<? extends Feature> featureClazz) {
         if (isFeatureEnabled(featureClazz)) {
            disableFeature(featureClazz);
 
-           return;
+           return this;
         }
 
         enableFeature(featureClazz);
+
+        return this;
     }
 }
