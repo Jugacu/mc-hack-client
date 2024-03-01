@@ -1,13 +1,30 @@
 package es.jugacu.features.impl;
 
-import es.jugacu.features.Feature;
-import es.jugacu.screens.OverlayScreen;
+import es.jugacu.features.AbstractFeature;
+import es.jugacu.screens.overlay.Category;
+import es.jugacu.screens.overlay.OverlayScreen;
 import net.minecraft.client.MinecraftClient;
 
-public class Overlay implements Feature {
+import java.util.ArrayList;
+
+public class Overlay extends AbstractFeature {
+    @Override
+    public String getName() {
+        return "Overlay";
+    }
+
+    @Override
+    public String getDescription() {
+        return "The click overlay GUI.";
+    }
+
     public final MinecraftClient client = MinecraftClient.getInstance();
 
-    public final OverlayScreen overlayScreen = new OverlayScreen();
+    public final OverlayScreen overlayScreen;
+
+    public Overlay(ArrayList<Category> categories) {
+        overlayScreen = new OverlayScreen(categories);
+    }
 
     @Override
     public void onEnable() {

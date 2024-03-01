@@ -1,14 +1,17 @@
 package es.jugacu.widgets.window;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import es.jugacu.widgets.FeatureWidget;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
 import net.minecraft.client.gui.widget.ClickableWidget;
+import net.minecraft.client.sound.SoundManager;
 import net.minecraft.text.Text;
 import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 public class WindowWidget extends ClickableWidget {
 
@@ -17,19 +20,28 @@ public class WindowWidget extends ClickableWidget {
     private int dragOffsetX;
     private int dragOffsetY;
     private boolean dragging;
-    protected final WindowContainerWidget windowContainerWidget = new WindowContainerWidget();
+    protected final WindowContainerWidget windowContainerWidget;
 
     public final Color TITLE_COLOR = new Color(0xEA525D5D, true);
     public final Color LINE_COLOR = new Color(0xEA3E4646, true);
 
-    public WindowWidget(int x, int y, int width, int height, Text text) {
+    public WindowWidget(
+            int x,
+            int y,
+            int width,
+            int height,
+            Text text,
+            ArrayList<FeatureWidget> featureWidgets
+    ) {
         super(x, y, width, height, text);
+
+        this.windowContainerWidget = new WindowContainerWidget(featureWidgets);
     }
 
     private int[] getTitleBounds() {
         return new int[]{
-            this.getX(), this.getY(),
-            this.getX() + this.getWidth(), this.getY() + TITLE_HEIGHT
+                this.getX(), this.getY(),
+                this.getX() + this.getWidth(), this.getY() + TITLE_HEIGHT
         };
     }
 
@@ -80,21 +92,21 @@ public class WindowWidget extends ClickableWidget {
 
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        windowContainerWidget.mouseClicked(mouseX, mouseY, button);
-
         int[] bounds = getTitleBounds();
 
         boolean inXBounds = mouseX >= bounds[0] && mouseX <= bounds[2];
         boolean inYBounds = mouseY >= bounds[1] && mouseY <= bounds[3];
 
         if (!inXBounds || !inYBounds) {
+            windowContainerWidget.mouseClicked(mouseX, mouseY, button);
+
             return super.mouseClicked(mouseX, mouseY, button);
         }
 
         dragging = true;
 
-        dragOffsetX = this.getX() - (int)mouseX;
-        dragOffsetY = this.getY() - (int)mouseY;
+        dragOffsetX = this.getX() - (int) mouseX;
+        dragOffsetY = this.getY() - (int) mouseY;
 
         return super.mouseClicked(mouseX, mouseY, button);
     }
@@ -114,8 +126,8 @@ public class WindowWidget extends ClickableWidget {
             return;
         }
 
-        this.setX((int)mouseX + dragOffsetX);
-        this.setY((int)mouseY + dragOffsetY);
+        this.setX((int) mouseX + dragOffsetX);
+        this.setY((int) mouseY + dragOffsetY);
     }
 
     @Override
@@ -130,5 +142,10 @@ public class WindowWidget extends ClickableWidget {
         windowContainerWidget.mouseDragged(mouseX, mouseY, button, deltaX, deltaY);
 
         return super.mouseDragged(mouseX, mouseY, button, deltaX, deltaY);
+    }
+
+    @Override
+    public void playDownSound(SoundManager soundManager) {
+
     }
 }

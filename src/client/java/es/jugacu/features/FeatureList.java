@@ -18,85 +18,100 @@ public class FeatureList {
 
     private final EventRegistry eventRegistry = EventRegistry.getInstance();
 
-    private final ArrayList<Feature> disabledFeatures = new ArrayList<>();
-    private final ArrayList<Feature> enabledFeatures = new ArrayList<>();
+    private final ArrayList<Feature> features = new ArrayList<>();
 
     private FeatureList() {
     }
 
     public FeatureList registerFeature(Feature feature, boolean enabled) {
-        disabledFeatures.add(feature);
+        features.add(feature);
 
         if (enabled) {
-            enableFeature(feature.getClass());
+            enableFeature(feature);
         }
 
         return this;
     }
 
     public FeatureList enableFeature(Class<? extends Feature> featureClazz) {
-        Iterator<Feature> iterator = disabledFeatures.iterator();
-
-        while (iterator.hasNext()) {
-            Feature feature = iterator.next();
-
+        for (Feature feature : features) {
             if (!featureClazz.isInstance(feature)) {
                 continue;
             }
 
-            if (!feature.canBeEnabled()) {
-                continue;
-            }
-
-            iterator.remove();  // Remove the current element from the list
-            enabledFeatures.add(feature);
-
-            feature.onEnable();
-
-            eventRegistry.registerEvents(feature);
+            enableFeature(feature);
         }
+
+        return this;
+    }
+
+    public FeatureList enableFeature(Feature feature) {
+        if (!feature.canBeEnabled()) {
+            return this;
+        }
+
+        feature.enable();
+
+        eventRegistry.registerEvents(feature);
 
         return this;
     }
 
     public FeatureList disableFeature(Class<? extends Feature> featureClazz) {
-        Iterator<Feature> iterator = enabledFeatures.iterator();
-
-        while (iterator.hasNext()) {
-            Feature feature = iterator.next();
-
+        for (Feature feature : features) {
             if (!featureClazz.isInstance(feature)) {
                 continue;
             }
 
-            if (!feature.canBeDisabled()) {
-                continue;
-            }
-
-            iterator.remove();  // Remove the current element from the list
-            disabledFeatures.add(feature);
-
-            feature.onDisable();
-
-            eventRegistry.remove(feature);
+            disableFeature(feature);
         }
+
+        return this;
+    }
+
+    public FeatureList disableFeature(Feature feature) {
+        if (!feature.canBeDisabled()) {
+            return this;
+        }
+
+        feature.disable();
+
+        eventRegistry.remove(feature);
 
         return this;
     }
 
     public boolean isFeatureEnabled(Class<? extends Feature> featureClazz) {
-        return enabledFeatures.stream().anyMatch(featureClazz::isInstance);
+        for (Feature feature : features) {
+            if (featureClazz.isInstance(feature)) {
+                return feature.isEnabled();
+            }
+        }
+
+        return false;
     }
 
     public FeatureList toggleFeature(Class<? extends Feature> featureClazz) {
-        if (isFeatureEnabled(featureClazz)) {
-           disableFeature(featureClazz);
-
-           return this;
+        for (Feature feature : features) {
+            if (featureClazz.isInstance(feature)) {
+                if (feature.isEnabled()) {
+                    disableFeature(feature);
+                } else {
+                    enableFeature(feature);
+                }
+                break;
+            }
         }
 
-        enableFeature(featureClazz);
-
         return this;
+    }
+
+    public Feature getFeatureInstance(Class<? extends Feature> featureClazz) {
+        for (Feature feature : features) {
+            if(featureClazz.isInstance(feature)) {
+                return feature;
+            }
+        }
+        return null;
     }
 }

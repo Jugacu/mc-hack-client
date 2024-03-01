@@ -80,7 +80,7 @@ public abstract class ScrollableWidget
             this.setScrollY(this.getMaxScrollY());
         } else {
             int i = this.getScrollbarThumbHeight();
-            double d = Math.max(1, this.getMaxScrollY() / (this.height - i));
+            double d = Math.max(1, this.getMaxScrollY() / Math.max((this.height - i), 1));
             this.setScrollY(this.scrollY + deltaY * d);
         }
         return true;
@@ -88,7 +88,7 @@ public abstract class ScrollableWidget
 
     @Override
     public boolean mouseScrolled(double mouseX, double mouseY, double horizontalAmount, double verticalAmount) {
-        if (!this.visible) {
+        if (!this.visible || !this.overflows()) {
             return false;
         }
         this.setScrollY(this.scrollY - verticalAmount * this.getDeltaYPerScroll());
@@ -116,7 +116,7 @@ public abstract class ScrollableWidget
             return;
         }
         this.drawBox(context);
-        context.enableScissor(this.getX() + 1, this.getY() + 1, this.getX() + this.width - 1, this.getY() + this.height - 1);
+        context.enableScissor(this.getX(), this.getY(), this.getX() + this.getWidth(), this.getY() + this.getHeight());
         context.getMatrices().push();
         context.getMatrices().translate(0.0, -this.scrollY, 0.0);
         this.renderContents(context, mouseX, mouseY, delta);

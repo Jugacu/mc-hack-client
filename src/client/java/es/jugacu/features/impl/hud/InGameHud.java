@@ -2,12 +2,22 @@ package es.jugacu.features.impl.hud;
 
 import es.jugacu.events.Event;
 import es.jugacu.events.EventType;
+import es.jugacu.features.AbstractFeature;
 import es.jugacu.features.Feature;
 import net.minecraft.client.gui.DrawContext;
 
-public class InGameHud implements Feature {
+public class InGameHud extends AbstractFeature {
+    @Override
+    public String getName() {
+        return "InGameHud";
+    }
 
-    @Event(type = EventType.MIXIN_GUI_RENDER)
+    @Override
+    public String getDescription() {
+        return "InGameHud";
+    }
+
+    @Event(EventType.MIXIN_GUI_RENDER)
     public void onGUIRender(DrawContext context, float tickDelta) {
     }
 

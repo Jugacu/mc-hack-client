@@ -2,12 +2,23 @@ package es.jugacu.features.impl;
 
 import es.jugacu.events.Event;
 import es.jugacu.events.EventType;
+import es.jugacu.features.AbstractFeature;
 import es.jugacu.features.Feature;
 import es.jugacu.features.FeatureList;
 import org.lwjgl.glfw.GLFW;
 
-public class Keyboard implements Feature {
-    @Event(type = EventType.MIXIN_KEY_PRESS)
+public class Keyboard extends AbstractFeature {
+    @Override
+    public String getName() {
+        return "Keyboard";
+    }
+
+    @Override
+    public String getDescription() {
+        return "Intercepts keyboard inputs";
+    }
+
+    @Event(EventType.MIXIN_KEY_PRESS)
     public void onKeyPress(long windowHandle, int key, int scancode, int action, int modifiers) {
         if (action != GLFW.GLFW_PRESS) {
             return;

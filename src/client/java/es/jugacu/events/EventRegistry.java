@@ -39,8 +39,17 @@ public class EventRegistry {
 
                 method.invoke(object, args);
             } catch (InvocationTargetException | IllegalAccessException e) {
-                Hack.LOGGER.error(e.getCause().toString());
-                e.getCause().printStackTrace();
+                Throwable cause = e.getCause();
+
+                if (cause != null) {
+                    Hack.LOGGER.error(e.getCause().toString());
+                    e.getCause().printStackTrace();
+
+                    return;
+                }
+
+                Hack.LOGGER.error(e.getMessage());
+                e.printStackTrace();
             }
         }
     }
@@ -51,7 +60,7 @@ public class EventRegistry {
 
             // Check if the object is equal to the one we want to remove
             // If so, remove it from the ArrayList
-            arrayList.removeIf(tuple -> tuple.getSecond().equals(object));
+            arrayList.removeIf(tuple -> tuple.getSecond() == object);
         }
 
         return this;
@@ -74,17 +83,16 @@ public class EventRegistry {
             }
 
             Event annotation = method.getAnnotation(Event.class);
-            EventType type = annotation.type();
+            EventType type = annotation.value();
 
             ArrayList<Tuple<Method, Object>> eventCallbacks = this.eventCallbackMap.get(type);
 
             Tuple<Method, Object> tuple = new Tuple<>(method, obj);
 
             if (eventCallbacks == null) {
-                eventCallbacks = new ArrayList<>(List.of(tuple));
-                this.eventCallbackMap.put(type, eventCallbacks);
+                this.eventCallbackMap.put(type, new ArrayList<>(List.of(tuple)));
 
-                return;
+                continue;
             }
 
             eventCallbacks.add(tuple);
